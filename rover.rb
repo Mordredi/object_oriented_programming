@@ -9,11 +9,15 @@ class Rover
   end
 
   def read_instruction(inst)
-    if inst == "L"
-      turn_left
+    inst.split("").each do |com|
+      if com == "L"
+        turn_left
+      end
+      turn_right if com == "R"
+      move if com == "M"
     end
-    turn_right if inst == "R"
-    move if inst == "M"
+    puts self
+
   end
 
   def move
@@ -48,8 +52,22 @@ class Rover
 
 end
 
-rover1 = Rover.new(0,0,"N")
-puts rover1
-rover1.read_instruction("M")
-puts rover1
-rover1.read_instruction("L")
+class NASA
+  attr_accessor :rovers, :commands
+
+  def initialize
+    @rovers = []
+    @commands = []
+  end
+
+  def deploy_rover(a, b, c)
+    rover = Rover.new(a, b, c)
+    @rovers << rover
+  end
+
+  def receive(commands)
+    @commands << commands
+    @rovers[0].read_instruction(@commands[0])
+  end
+
+end
