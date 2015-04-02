@@ -1,5 +1,5 @@
-class Person(name)
-  def initialize
+class Person
+  def initialize(name)
     @name = name
   end
 
@@ -19,3 +19,6 @@ class Instructor < Person
     puts "Everything in Ruby is an Object."
   end
 end
+
+instructor = Instructor.new("Chris")
+puts instructor
