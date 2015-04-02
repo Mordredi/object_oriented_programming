@@ -25,3 +25,10 @@ puts instructor
 
 student = Student.new("Cristina")
 puts student
+
+instructor.teach
+student.learn
+
+# student.teach will error because teach does not belong to the class student
+
+student.teach
