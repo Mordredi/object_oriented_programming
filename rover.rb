@@ -67,7 +67,9 @@ class NASA
 
   def receive(commands)
     @commands << commands
-    @rovers[0].read_instruction(@commands[0])
+    @rovers.each do |rover|
+      rover.read_instruction(@commands[0])
+    end
   end
 
 end
