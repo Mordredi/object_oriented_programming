@@ -1,11 +1,13 @@
 class Rover
 
-  attr_accessor :x, :y, :direction
+  attr_accessor :x, :y, :direction, :b_x, :b_y
 
   def initialize(x, y, direction)
     @x = x
     @y = y
     @direction = direction
+    @b_x = 0
+    @b_y = 0
   end
 
   def read_instruction(inst)
@@ -53,23 +55,78 @@ class Rover
 end
 
 class NASA
-  attr_accessor :rovers, :commands
+
+  attr_accessor :rovers, :plateau_x, :plateau_y
 
   def initialize
     @rovers = []
-    @commands = []
+    @plateau_x = 0
+    @plateau_y = 0
   end
 
-  def deploy_rover(a, b, c)
-    rover = Rover.new(a, b, c)
+  def menu
+    puts "Hello NASA, please select command by number"
+    puts "[1] Set plateau size"
+    puts "[2] Deploy rover"
+    puts "[3] Issue rover commands"
+    puts "[4] Exit"
+    puts "Select:"
+    command = gets.to_i
+    set_plateau if command == 1
+    deploy_rover if command == 2
+    receive if command == 3
+    exit if command == 4
+  end
+
+  def deploy_rover
+    puts "Set point of deployment"
+    puts "x:"
+    x = gets.to_i
+    puts "y:"
+    y = gets.to_i
+    puts "Facing which direction? [N, W, S, E]"
+    direction = gets.chomp.upcase
+    rover = Rover.new(x, y, direction)
     @rovers << rover
+    menu
   end
 
-  def receive(commands)
-    @commands << commands
+  def receive
     @rovers.each do |rover|
-      rover.read_instruction(@commands[0])
+      puts "Please issue commands"
+      commands = gets
+      rover.read_instruction(commands)
     end
+    menu
+  end
+
+  def set_plateau
+    puts "Please declare size of plateau."
+    puts "x:"
+    x = gets.to_i
+    puts "y:"
+    y = gets.to_i
+    puts "Plateau size received."
+    Plateau.new(x, y)
+    menu
+  end
+end
+
+class Plateau
+
+  attr_accessor :x, :y
+
+  def initialize(x, y)
+    @x = x
+    @y = y
+  end
+
+  def to_s
+    "The plateau is #{@x} wide and #{@y} tall."
   end
 
 end
+
+nasa = NASA.new
+
+nasa.menu
