@@ -56,12 +56,11 @@ end
 
 class NASA
 
-  attr_accessor :rovers, :plateau_x, :plateau_y
+  attr_accessor :rovers, :plateau
 
   def initialize
     @rovers = []
-    @plateau_x = 0
-    @plateau_y = 0
+    @plateaus = []
   end
 
   def menu
@@ -69,13 +68,15 @@ class NASA
     puts "[1] Set plateau size"
     puts "[2] Deploy rover"
     puts "[3] Issue rover commands"
-    puts "[4] Exit"
+    puts "[4] Plateau size"
+    puts "[5] Exit"
     puts "Select:"
     command = gets.to_i
     set_plateau if command == 1
     deploy_rover if command == 2
     receive if command == 3
-    exit if command == 4
+    plateau_size if command == 4
+    exit if command == 5
   end
 
   def deploy_rover
@@ -107,7 +108,15 @@ class NASA
     puts "y:"
     y = gets.to_i
     puts "Plateau size received."
-    Plateau.new(x, y)
+    plateau = Plateau.new(x, y)
+    @plateaus << plateau
+    menu
+  end
+
+  def plateau_size
+    @plateaus.each do |plateau|
+     puts plateau
+    end
     menu
   end
 end
