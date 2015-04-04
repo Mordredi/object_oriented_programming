@@ -26,7 +26,7 @@ class ShoppingList
     puts "How many?"
     item << gets.chomp.to_i
     puts "What is the price?"
-    item << gets.*(100).to_i
+    item << gets.to_i
     puts "Please select type of item by number"
     puts "[1] food"
     puts "[2] book"
@@ -42,8 +42,7 @@ class ShoppingList
     @items.each do |item|
       puts "#{item[1]} #{item[0]}: #{item[2]}"
     end
-    "Sales Taxes: #{@tax}"
-    "Total: #{@total}"
+    "Sales Taxes: #{@tax}\nTotal: #{@total}"
   end
 
   def calculate_tax
