@@ -1,13 +1,13 @@
 class Rover
 
-  attr_accessor :x, :y, :direction, :b_x, :b_y
+  attr_accessor :x, :y, :direction, :p_x, :p_y
 
-  def initialize(x, y, direction)
+  def initialize(x, y, direction, p_x, p_y)
     @x = x
     @y = y
     @direction = direction
-    @b_x = 0
-    @b_y = 0
+    @p_x = p_x
+    @p_y = p_y
   end
 
   def read_instruction(inst)
@@ -15,7 +15,9 @@ class Rover
       if com == "L"
         turn_left
       end
-      turn_right if com == "R"
+      if com == "R"
+        turn_right
+      end
       move if com == "M"
     end
     puts self
@@ -42,10 +44,15 @@ class Rover
   end
 
   def turn_right
-    @direction = "E" if @direction == "N"
-    @direction = "S" if @direction == "E"
-    @direction = "W" if @direction == "S"
-    @direction = "N" if @direction == "W"
+    if @direction == "N"
+      @direction = "E"
+    elsif @direction == "E"
+      @direction = "S"
+    elsif @direction == "S"
+      @direction = "W"
+    elsif @direction == "W"
+      @direction = "N"
+    end
   end
 
   def to_s
@@ -60,7 +67,7 @@ class NASA
 
   def initialize
     @rovers = []
-    @plateaus = []
+    @plateau
   end
 
   def menu
@@ -87,7 +94,9 @@ class NASA
     y = gets.to_i
     puts "Facing which direction? [N, W, S, E]"
     direction = gets.chomp.upcase
-    rover = Rover.new(x, y, direction)
+    p_x = @plateau.x
+    p_y = @plateau.y
+    rover = Rover.new(x, y, direction, p_x, p_y)
     @rovers << rover
     menu
   end
@@ -108,15 +117,12 @@ class NASA
     puts "y:"
     y = gets.to_i
     puts "Plateau size received."
-    plateau = Plateau.new(x, y)
-    @plateaus << plateau
+    @plateau = Plateau.new(x, y)
     menu
   end
 
   def plateau_size
-    @plateaus.each do |plateau|
-     puts plateau
-    end
+    puts @plateau
     menu
   end
 end
